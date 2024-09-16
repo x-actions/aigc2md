@@ -14,5 +14,5 @@
 import pbr.version
 
 
-version_info = pbr.version.VersionInfo('python3-aigc2md')
+version_info = pbr.version.VersionInfo('aigc2md')
 __version__ = version_info.version_string()

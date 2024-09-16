@@ -17,7 +17,7 @@ import pbr.version
 __all__ = ['__version__']
 
 
-version_info = pbr.version.VersionInfo('python3-aigc2md')
+version_info = pbr.version.VersionInfo('aigc2md')
 # We have a circular import problem when we first run python setup.py sdist
 # It's harmless, so deflect it.
 try:

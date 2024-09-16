@@ -7,8 +7,8 @@ LABEL "com.github.actions.name"="convert AIGC to hugo markdown"
 LABEL "com.github.actions.description"="convert AIGC to hugo markdown"
 LABEL "com.github.actions.icon"="repeat"
 LABEL "com.github.actions.color"="blue"
-LABEL "repository"="http://github.com/x-actions/python3-aigc2md"
-LABEL "homepage"="http://github.com/x-actions/python3-aigc2md"
+LABEL "repository"="http://github.com/x-actions/aigc2md"
+LABEL "homepage"="http://github.com/x-actions/aigc2md"
 LABEL "maintainer"="xiexianbin<me@xiexianbin.cn>"
 
 LABEL "Name"="convert AIGC to hugo markdown"
@@ -20,9 +20,9 @@ ENV LANGUAGE en_US.UTF-8
 
 RUN apt update && \
     apt install -y git python3 python3-pip jq wget && \
-    # install python3-aigc2md
-    git clone https://github.com/x-actions/python3-aigc2md.git -b v1 && \
-    cd python3-aigc2md && \
+    # install aigc2md
+    git clone https://github.com/x-actions/aigc2md.git -b v1 && \
+    cd aigc2md && \
     pip3 install -r requirements.txt && \
     python3 setup.py install
 

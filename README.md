@@ -1,6 +1,6 @@
-# python3-aigc2md
+# aigc2md
 
-[![PyPI-python3-aigc2md](https://img.shields.io/pypi/v/python3-aigc2md.svg?maxAge=3600)](https://pypi.org/project/python3-aigc2md/)
+[![PyPI-aigc2md](https://img.shields.io/pypi/v/aigc2md.svg?maxAge=3600)](https://pypi.org/project/aigc2md/)
 
 convert AIGC to hugo markdown, current only support OpenWebUI API
 将 AIGC 生产的内容转化为 hugo markdown 格式，当前仅支持调用 OpenWebUI API
@@ -9,7 +9,7 @@ convert AIGC to hugo markdown, current only support OpenWebUI API
 
 ```
     - name: convert AIGC to hugo markdown
-      uses: x-actions/python3-aigc2md@v1
+      uses: x-actions/aigc2md@v1
       env:
         OPEN_WEBUI_JWT: "<JWT>"
         LOG_LEVEL: "DEBUG"
@@ -18,7 +18,7 @@ convert AIGC to hugo markdown, current only support OpenWebUI API
 ## use as cli
 
 ```
-$ pip install python3-aigc2md
+$ pip install aigc2md
 
 $ aigc2md --help
 usage: aigc2md [--version] [--debug] <subcommand> ...
