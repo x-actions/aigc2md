@@ -11,9 +11,12 @@
 #   License for the specific language governing permissions and limitations
 #   under the License.
 
+import os
+
 from aigc2md import utils
-from aigc2md.v1.users import Users
 from aigc2md.v1.chats import Chats
+from aigc2md.v1.render import Render
+from aigc2md.v1.users import Users
 
 
 @utils.arg(
@@ -36,3 +39,24 @@ def do_users(args):
 def do_chats(args):
     """chats actions."""
     Chats().list(page=args.page)
+
+
+@utils.arg(
+    '-i',
+    '--id', dest='chat_id', metavar='<str>', help='chat id.',
+    default="")
+@utils.arg(
+    '-f',
+    '--force',
+    dest='force',
+    action="store_true",
+    default=False,
+    help='force render model(default is %(default)s)')
+@utils.arg(
+    '-o',
+    '--output',
+    dest='output', metavar='<str>', help='markdown post output directory.(default is %(default)s)',
+    default=f'{os.getcwd()}/output')
+def do_render(args):
+    """render actions."""
+    Render(force=args.force).one(chat_id=args.chat_id, output=args.output)

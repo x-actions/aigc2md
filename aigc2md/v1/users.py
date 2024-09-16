@@ -19,8 +19,8 @@ from aigc2md import utils
 class Users:
 
     def __init__(self):
-      self.client = openwebui.OpenWebUI(
-          base_url=config.OPENWEBUI_BASE_URL, token=config.OPENWEBUI_JWT)
+        self.client = openwebui.OpenWebUI(
+            base_url=config.OPENWEBUI_BASE_URL, token=config.OPENWEBUI_JWT)
 
     def show(self, limit: int = 50, skip: int = 0):
         users = []
@@ -31,8 +31,8 @@ class Users:
                 _user.email,
                 _user.role,
                 _user.settings.ui.get('system') if _user.settings else '-',
-                _user.created_at,
-                _user.last_active_at,
+                utils.timestamp_to_dateformat(_user.created_at),
+                utils.timestamp_to_dateformat(_user.last_active_at),
             ])
 
         utils.pretty_output(

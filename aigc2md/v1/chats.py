@@ -19,8 +19,8 @@ from aigc2md import utils
 class Chats:
 
     def __init__(self):
-      self.client = openwebui.OpenWebUI(
-          base_url=config.OPENWEBUI_BASE_URL, token=config.OPENWEBUI_JWT)
+        self.client = openwebui.OpenWebUI(
+            base_url=config.OPENWEBUI_BASE_URL, token=config.OPENWEBUI_JWT)
 
     def list(self, page: int = 1):
         """Get Session User Chat List

@@ -13,7 +13,6 @@
 
 """
 Command-line interface for convert AIGC to hugo markdown.
-ref: https://github.com/openstack/python-novaclient/blob/master/novaclient/shell.py
 """
 
 import argparse

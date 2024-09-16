@@ -8,11 +8,17 @@
       "name": "Python: Current File",
       "type": "debugpy",
       "request": "launch",
-      "program": "${file}",
+      "program": "${workspaceFolder}/aigc2md/shell.py",
       "console": "integratedTerminal",
       "justMyCode": true,
+      "env": {
+          "PYTHONPATH":"${workspaceRoot}"
+      },
       "args": [
-        "--debug",
+        "render",
+        "--id",
+        // "ef0bdafc-045c-41eb-aba5-c841e31c2fd8",
+        "cab178a2-ba80-4008-a72d-1eb41c21e6c4",
       ],
     }
   ]
