@@ -42,7 +42,7 @@ class OpenWebUI:
 
     def chats_tags_create(self, chat_id: str, tag_name: str):
         """Add Chat Tag By Id"""
-        return self.client.chats.tags.create(id=id, chat_id=id, tag_name=tag_name)
+        return self.client.chats.tags.create(id=chat_id, chat_id=chat_id, tag_name=tag_name)
 
     def users_list(self, limit: int = 50, skip: int = 0):
         """Get Users"""

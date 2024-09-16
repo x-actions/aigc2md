@@ -70,18 +70,22 @@ class Render:
             'qwen': 'a',
             'SparkDesk': 's',
         }
-        self.rendered_flag = 'posted'
+        self.rendered_tag = 'posted'
         self.client = openwebui.OpenWebUI(
             base_url=config.OPENWEBUI_BASE_URL, token=config.OPENWEBUI_JWT)
 
         self.force = force
 
-    def _parse_tags(self, tags: List[dict]) -> List[str]:
+    def _parse_tags(self, chat_id: str, tags: List[dict]) -> List[str]:
         result = []
+        _tags = self.client.chats_tags_list(id=chat_id)
+        for _tag in _tags:
+            result.append(_tag.name)
+
         for tag in tags:
             if tag:
               result.append(tag.get('name', ''))
-        return result
+        return list(set(result))
 
     def _parse_author(self, model_name: str):
         for author in self.author_list:
@@ -129,8 +133,9 @@ class Render:
         # Get Chat By Id
         chat = self.client.chats_retrieve(id=chat_id)
 
-        if self.rendered_flag in self._parse_tags(chat.chat.get('tags', [])):
-            print(f'chat: {chat.title}({chat_id}) already render with flag({self.rendered_flag}), please use `--force` flag to force render again')
+        rendered_flag = self.rendered_tag in self._parse_tags(chat_id, chat.chat.get('tags', []))
+        if rendered_flag and self.force is False:
+            print(f'chat: {chat.title}({chat_id}) already render with flag({self.rendered_tag}), please use `--force` flag to force render again')
             sys.exit(1)
 
         posts = self._parse_to_posts(chat.chat.get('messages', {}))
@@ -146,7 +151,16 @@ class Render:
                 out_file.write(tmle.render({'post': post}))
                 print(f'{post.title} render to {file_path} ...')
 
-        # utils.pretty_output(
-        #     field_names=['ID', 'title', 'updated_at', 'created_at',],
-        #     rows=chats
-        # )
+        # add flag
+        if rendered_flag is False:
+            resp = self.client.chats_tags_create(chat_id=chat_id, tag_name=self.rendered_tag)
+            utils.pretty_output(
+                field_names=[],
+                rows=[
+                    ['ID', resp.id],
+                    ['chat_id', resp.chat_id],
+                    ['tag_name', resp.tag_name],
+                    ['timestamp', utils.timestamp_to_dateformat(resp.timestamp)],
+                    ['user_id', resp.user_id],
+                ],
+            )

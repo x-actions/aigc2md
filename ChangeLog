@@ -1,0 +1,21 @@
+CHANGES
+=======
+
+v0.2.1
+------
+
+* minor: change pkg name to aigc2md
+
+v0.2.0
+------
+
+* feature: render to markdown
+* feature: users/chats subcommand
+* fix: depend alerts
+* feature: users subcommand
+
+v0.1.0
+------
+
+* init cli framework
+* Initial commit
