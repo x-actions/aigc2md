@@ -13,9 +13,15 @@
 
 import os
 
+from aigc2md import exception
+
 
 CURRENT_PATH = os.getcwd()
 
-# open-webui JWT
-OPEN_WEBUI_JWT = os.environ.get('OPEN_WEBUI_JWT', '')
+# open-webui
+OPENWEBUI_BASE_URL = os.environ.get('OPENWEBUI_BASE_URL', 'https://ai.80.xyz/api/v1')
+OPENWEBUI_JWT = os.environ.get('OPENWEBUI_JWT', None)
+if OPENWEBUI_JWT in ('', None):
+    raise exception.UnKnownOpenWebUIJWT('please set open webui JWT by: export OPENWEBUI_JWT="<JWT 令牌>"')
+
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'DEBUG')

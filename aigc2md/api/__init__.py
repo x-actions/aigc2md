@@ -10,17 +10,3 @@
 #   WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 #   License for the specific language governing permissions and limitations
 #   under the License.
-
-from aigc2md import utils
-from aigc2md.v1.users import Users
-
-
-@utils.arg(
-    '--limit', dest='limit', metavar='<integer>', type=int, default=50,
-    help='page size.')
-@utils.arg(
-    '--skip', dest='skip', metavar='<integer>', type=int, default=0,
-    help='skip.')
-def do_users(args):
-    """list users."""
-    Users().show(limit=args.limit, skip=args.skip)

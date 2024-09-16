@@ -18,6 +18,7 @@ ref: https://github.com/openstack/python-novaclient/blob/master/novaclient/shell
 
 import argparse
 import logging
+import os
 import sys
 
 import aigc2md
@@ -167,6 +168,9 @@ class Shell(object):
         ch = logging.StreamHandler()
         self.client_logger.setLevel(logging.DEBUG)
         self.client_logger.addHandler(ch)
+
+        # for pyopenwebui
+        os.environ['PYOPENWEBUI_LOG'] = 'debug'
 
     def main(self, argv):
         # Parse args once to find version and debug settings

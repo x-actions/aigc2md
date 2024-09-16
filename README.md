@@ -30,7 +30,7 @@ pip3 install -r requirements.txt
 export OPEN_WEBUI_JWT="<JWT>"
 
 # dev
-export PYTHONPATH=$(pwd)
+export PYTHONPATH=$PYTHONPATH:$(pwd)
 python3 aigc2md/shell.py --help
 python3 aigc2md/shell.py help xxx
 ```

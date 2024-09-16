@@ -21,6 +21,9 @@ try:
     collections.Counter = abc.Counter  # noqa
 except Exception as _:  # noqa
     pass
+from typing import List
+
+from prettytable import PrettyTable
 
 from aigc2md import exception
 
@@ -95,3 +98,11 @@ def date2timestamp(date_time) -> int:
     except ValueError:
         dt_utc = datetime.strptime(date_time, '%Y-%m-%dT%H:%M:%SZ')
         return int(dt_utc.timestamp() * 1000)
+
+
+def pretty_output(field_names: List[str], rows: List[List[any]]):
+    pt = PrettyTable()
+    pt.field_names = field_names  # table header
+    for row in rows:  # table body
+        pt.add_row(row)
+    print(pt)

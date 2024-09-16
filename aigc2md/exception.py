@@ -45,3 +45,7 @@ class BaseException(Exception):
 
 class CommandError(Exception):
     pass
+
+
+class UnKnownOpenWebUIJWT(Exception):
+    pass

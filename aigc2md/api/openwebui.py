@@ -11,16 +11,17 @@
 #   License for the specific language governing permissions and limitations
 #   under the License.
 
-from aigc2md import utils
-from aigc2md.v1.users import Users
+""" open-webui API for https://ai.80.xyz/api/v1/docs """
+
+from pyopenwebui import Pyopenwebui, DefaultHttpxClient
 
 
-@utils.arg(
-    '--limit', dest='limit', metavar='<integer>', type=int, default=50,
-    help='page size.')
-@utils.arg(
-    '--skip', dest='skip', metavar='<integer>', type=int, default=0,
-    help='skip.')
-def do_users(args):
-    """list users."""
-    Users().show(limit=args.limit, skip=args.skip)
+def new(base_url: str, token: str):
+  return Pyopenwebui(
+      # Or use the `PYOPENWEBUI_BASE_URL` env var
+      base_url=base_url,
+      max_retries=3,
+      default_headers={
+        'Authorization': f'Bearer {token}'},
+      http_client=DefaultHttpxClient(),
+  )
