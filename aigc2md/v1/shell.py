@@ -13,6 +13,7 @@
 
 from aigc2md import utils
 from aigc2md.v1.users import Users
+from aigc2md.v1.chats import Chats
 
 
 @utils.arg(
@@ -24,3 +25,14 @@ from aigc2md.v1.users import Users
 def do_users(args):
     """list users."""
     Users().show(limit=args.limit, skip=args.skip)
+
+
+@utils.arg(
+    '--page', dest='page', metavar='<integer>', type=int, default=1,
+    help='page number.')
+@utils.arg(
+    '--skip', dest='skip', metavar='<integer>', type=int, default=0,
+    help='skip.')
+def do_chats(args):
+    """chats actions."""
+    Chats().list(page=args.page)

@@ -16,26 +16,42 @@ from aigc2md import config
 from aigc2md import utils
 
 
-class Users:
+class Chats:
 
     def __init__(self):
       self.client = openwebui.OpenWebUI(
           base_url=config.OPENWEBUI_BASE_URL, token=config.OPENWEBUI_JWT)
 
-    def show(self, limit: int = 50, skip: int = 0):
-        users = []
-        for _user in self.client.users_list(limit=limit, skip=skip):
-            users.append([
-                _user.id,
-                _user.name,
-                _user.email,
-                _user.role,
-                _user.settings.ui.get('system') if _user.settings else '-',
-                _user.created_at,
-                _user.last_active_at,
+    def list(self, page: int = 1):
+        """Get Session User Chat List
+
+        Args:
+            page (int, optional): page number. Defaults to 1.
+        """
+        chats = []
+        for _chat in self.client.chats_list(page):
+            chats.append([
+                _chat.id,
+                _chat.title,
+                utils.timestamp_to_dateformat(_chat.updated_at),
+                utils.timestamp_to_dateformat(_chat.created_at),
             ])
 
         utils.pretty_output(
-            field_names=['ID', 'name', 'email', 'role', 'system', 'created_at', 'last_active_at'],
-            rows=users
+            field_names=['ID', 'title', 'updated_at', 'created_at',],
+            rows=chats
         )
+
+    def chat_by_id(self, id: str):
+        """Get Chat By Id
+
+        Args:
+            id (str): chat id
+        """
+
+    def chat_tags_by_id(self, id: str):
+        """Get Chat Tags By Id
+
+        Args:
+            id (str): chat id
+        """

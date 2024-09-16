@@ -106,3 +106,7 @@ def pretty_output(field_names: List[str], rows: List[List[any]]):
     for row in rows:  # table body
         pt.add_row(row)
     print(pt)
+
+
+def timestamp_to_dateformat(ts: int, format: str = '%Y-%m-%d %H:%M:%S') -> str:
+    return time.strftime(format, time.localtime(ts))

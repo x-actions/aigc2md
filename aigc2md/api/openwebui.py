@@ -16,12 +16,34 @@
 from pyopenwebui import Pyopenwebui, DefaultHttpxClient
 
 
-def new(base_url: str, token: str):
-  return Pyopenwebui(
-      # Or use the `PYOPENWEBUI_BASE_URL` env var
-      base_url=base_url,
-      max_retries=3,
-      default_headers={
-        'Authorization': f'Bearer {token}'},
-      http_client=DefaultHttpxClient(),
-  )
+class OpenWebUI:
+
+    def __init__(self, base_url: str, token: str) -> None:
+        self.client = Pyopenwebui(
+          # Or use the `PYOPENWEBUI_BASE_URL` env var
+          base_url=base_url,
+          max_retries=3,
+          default_headers={
+            'Authorization': f'Bearer {token}'},
+          http_client=DefaultHttpxClient(),
+      )
+
+    def chats_list(self, page: int = 1):
+        """Get Session User Chat List"""
+        return self.client.chats.list(page=page)
+
+    def chats_retrieve(self, id: str):
+        """Get Chat By Id"""
+        return self.client.chats.retrieve(id=id)
+
+    def chats_tags_list(self, id: str):
+        """Get Chat Tags By Id"""
+        return self.client.chats.tags.list(id=id)
+
+    def chats_tags_create(self, chat_id: str, tag_name: str):
+        """Add Chat Tag By Id"""
+        return self.client.chats.tags.create(id=id, chat_id=id, tag_name=tag_name)
+
+    def users_list(self, limit: int = 50, skip: int = 0):
+        """Get Users"""
+        return self.client.users.list(limit=limit, skip=skip)
