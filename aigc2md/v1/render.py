@@ -27,7 +27,7 @@ from aigc2md import utils
 post_archetype = """---
 title: "{{ post.title }}"
 author:
-date: {{ post.date }}
+date: "{{ post.date }}"
 deprecated:
   enable: false
   reference: []
@@ -38,8 +38,14 @@ comment: true
 keywords: {{ post.keywords }}
 description:
 aliases: []
-categories: {{ post.categories }}
-tags: {{ post.tags }}
+categories:
+{%- for i in post.categories %}
+  - {{ i }}
+{%- endfor %}
+tags:
+{%- for i in post.tags %}
+  - {{ i }}
+{%- endfor %}
 original: true
 reference: []
 ---
@@ -96,9 +102,11 @@ class Render:
     def _parse_to_posts(self, messages: List[any]) -> List[Post]:
         result = []
         title: str
+        category: str
         for message in messages:
             if message.get('role', '') == 'user':
                 title = message.get('content')
+                category = self._parse_category(title)
             elif message.get('role', '') == 'assistant':
                 post = Post(
                     title=title,
@@ -108,12 +116,24 @@ class Render:
                         format='%Y-%m-%d %H:%M:%S+0800',
                     ),
                     keywords=[],
-                    categories=[],
-                    tags=[],
+                    categories=[category],
+                    tags=[category],
                     content=message.get('content'),
                 )
                 result.append(post)
         return result
+
+    def _parse_category(self, s: str) -> str:
+        for category in config.DEFAULT_CATEGORIES_LIST:
+            if category in s:
+                return category
+        return 'posts'
+
+    def _parse_name(self, s: str) -> str:
+        _name = utils.clean_emoji(s)
+        if len(_name) > 32:
+            _name = _name[:32]
+        return _name.replace(' ', '').strip()
 
     def one(self, chat_id: str, output: str):
         """Render Chat by id
@@ -140,7 +160,12 @@ class Render:
 
         posts = self._parse_to_posts(chat.chat.get('messages', {}))
         for post in posts:
-            file_path = os.path.join(output, f'{post.title.replace(" ", "").replace("/", "-")}.md')
+            # output dir
+            post_dir = os.path.join(output, post.categories[0], self._parse_name(chat.title))
+            if os.path.exists(post_dir) is False:
+                os.makedirs(post_dir)
+
+            file_path = os.path.join(post_dir, f'{self._parse_name(post.title).replace(" ", "").replace("/", "-")}.md')
             if os.path.exists(file_path) and self.force is False:
                 file_path = file_path.replace(
                     '.md',

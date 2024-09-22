@@ -12,15 +12,15 @@
 #   under the License.
 
 """python utils."""
-import time
 from datetime import datetime
-
 import collections
 try:
     from collections import abc
     collections.Counter = abc.Counter  # noqa
 except Exception as _:  # noqa
     pass
+import re
+import time
 from typing import List
 
 from prettytable import PrettyTable
@@ -110,3 +110,11 @@ def pretty_output(field_names: List[str], rows: List[List[any]]):
 
 def timestamp_to_dateformat(ts: int, format: str = '%Y-%m-%d %H:%M:%S') -> str:
     return time.strftime(format, time.localtime(ts))
+
+
+def clean_emoji(s: str) -> str:
+    try:
+        co = re.compile(u'['u'\U0001F300-\U0001F64F' u'\U0001F680-\U0001F6FF'u'\u2600-\u2B55]+')
+    except re.error:
+        co = re.compile(u'('u'\ud83c[\udf00-\udfff]|'u'\ud83d[\udc00-\ude4f\ude80-\udeff]|'u'[\u2600-\u2B55])+')
+    return co.sub('', s)

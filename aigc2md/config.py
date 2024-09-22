@@ -27,3 +27,7 @@ if OPENWEBUI_JWT in ('', None):
     raise exception.UnKnownOpenWebUIJWT('please set open webui JWT by: export OPENWEBUI_JWT="<JWT 令牌>"')
 
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
+
+DEFAULT_CATEGORIES = os.environ.get('DEFAULT_CATEGORIES', 'ansible,apm,blockchain,carbon,ceph,cicd,cloud,cloud-native,dns,docker,ebpf,git,golang,hardware,hpc,iot,java,kubernetes,linux,lua,mac,mongodb,monitor,network,nginx,nodejs,openssl,openstack,openvswitch,program,python,react,rust,sdn,security,software,ubuntu,ai')
+
+DEFAULT_CATEGORIES_LIST = DEFAULT_CATEGORIES.split(',')
