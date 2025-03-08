@@ -20,16 +20,17 @@ class Chats:
 
     def __init__(self):
         self.client = openwebui.OpenWebUI(
-            base_url=config.OPENWEBUI_BASE_URL, token=config.OPENWEBUI_JWT)
+            base_url=config.OPENWEBUI_BASE_URL, token=config.PYOPENWEBUI_BEARER_TOKEN)
 
-    def list(self, page: int = 1):
+    def list(self, user_id: str, limit: int = 100, skip: int = 0):
         """Get Session User Chat List
 
         Args:
-            page (int, optional): page number. Defaults to 1.
+            user_id (str): user id
+            limit (int, optional): limit number. Defaults to 100.
         """
         chats = []
-        for _chat in self.client.chats_list(page):
+        for _chat in self.client.chats_list(user_id=user_id, limit=limit, skip=skip):
             chats.append([
                 _chat.id,
                 _chat.title,

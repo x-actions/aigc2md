@@ -31,14 +31,18 @@ def do_users(args):
 
 
 @utils.arg(
-    '--page', dest='page', metavar='<integer>', type=int, default=1,
-    help='page number.')
+    '-u',
+    '--user-id', dest='user_id', metavar='<str>', help='user id.',
+    default="")
+@utils.arg(
+    '--limit', dest='limit', metavar='<integer>', type=int, default=100,
+    help='limit number.')
 @utils.arg(
     '--skip', dest='skip', metavar='<integer>', type=int, default=0,
     help='skip.')
 def do_chats(args):
     """chats actions."""
-    Chats().list(page=args.page)
+    Chats().list(user_id=args.user_id, limit=args.limit, skip=args.skip)
 
 
 @utils.arg(

@@ -13,6 +13,8 @@
 
 """ open-webui API for https://ai.80.xyz/api/v1/docs """
 
+import os
+
 from pyopenwebui import Pyopenwebui, DefaultHttpxClient
 
 
@@ -22,28 +24,28 @@ class OpenWebUI:
         self.client = Pyopenwebui(
           # Or use the `PYOPENWEBUI_BASE_URL` env var
           base_url=base_url,
+          bearer_token=token if token else os.environ.get("PYOPENWEBUI_API_KEY"),
           max_retries=3,
-          default_headers={
-            'Authorization': f'Bearer {token}'},
+          default_headers={},
           http_client=DefaultHttpxClient(),
       )
 
-    def chats_list(self, page: int = 1):
+    def chats_list(self, user_id: str, limit: int = 1, skip: int = 0):
         """Get Session User Chat List"""
-        return self.client.chats.list(page=page)
+        return self.client.api.v1.chats.list(user_id=user_id, limit=limit, skip=skip)
 
-    def chats_retrieve(self, id: str):
-        """Get Chat By Id"""
-        return self.client.chats.retrieve(id=id)
+    def chats_get_by_id(self, id: str):
+        """Get Chats By Id"""
+        return self.client.api.v1.chats.get_by_id(id=id)
 
-    def chats_tags_list(self, id: str):
-        """Get Chat Tags By Id"""
-        return self.client.chats.tags.list(id=id)
+    def chats_tags_get_by_id(self, id: str):
+        """Get Chats Tags By Id"""
+        return self.client.api.v1.chats.tags.get_by_id(id=id)
 
-    def chats_tags_create(self, chat_id: str, tag_name: str):
+    def chats_tags_add(self, chat_id: str, name: str):
         """Add Chat Tag By Id"""
-        return self.client.chats.tags.create(id=chat_id, chat_id=chat_id, tag_name=tag_name)
+        return self.client.api.v1.chats.tags.add(id=chat_id, name=name)
 
-    def users_list(self, limit: int = 50, skip: int = 0):
+    def users_get(self, limit: int = 50, skip: int = 0):
         """Get Users"""
-        return self.client.users.list(limit=limit, skip=skip)
+        return self.client.api.v1.users.get(limit=limit, skip=skip)

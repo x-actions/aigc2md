@@ -19,12 +19,12 @@ from aigc2md import exception
 CURRENT_PATH = os.getcwd()
 
 # open-webui
-OPENWEBUI_BASE_URL = os.environ.get('OPENWEBUI_BASE_URL', 'https://ai.80.xyz/api/v1')
-OPENWEBUI_JWT = os.environ.get(
-  'OPENWEBUI_JWT',
+OPENWEBUI_BASE_URL = os.environ.get('OPENWEBUI_BASE_URL', 'https://ai.80.xyz')
+PYOPENWEBUI_BEARER_TOKEN = os.environ.get(
+  'PYOPENWEBUI_BEARER_TOKEN',
   os.environ.get('OPEN_WEBUI_JWT', None))
-if OPENWEBUI_JWT in ('', None):
-    raise exception.UnKnownOpenWebUIJWT('please set open webui JWT by: export OPENWEBUI_JWT="<JWT 令牌>"')
+if PYOPENWEBUI_BEARER_TOKEN in ('', None):
+    raise exception.UnKnownOpenWebUIJWT('please set open webui JWT by: export PYOPENWEBUI_BEARER_TOKEN="<JWT 令牌>"')
 
 LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
 

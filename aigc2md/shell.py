@@ -251,6 +251,7 @@ def main(argv=sys.argv[1:]):
         Shell().main(argv)
     except Exception as exc:
         logger.debug(exc, exc_info=1)
+        raise
         print(f'ERROR ({exc.__class__}): {exc.__str__()}', file=sys.stderr)
         sys.exit(1)
     except KeyboardInterrupt:

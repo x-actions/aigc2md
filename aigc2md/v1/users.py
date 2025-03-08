@@ -20,11 +20,11 @@ class Users:
 
     def __init__(self):
         self.client = openwebui.OpenWebUI(
-            base_url=config.OPENWEBUI_BASE_URL, token=config.OPENWEBUI_JWT)
+            base_url=config.OPENWEBUI_BASE_URL, token=config.PYOPENWEBUI_BEARER_TOKEN)
 
     def show(self, limit: int = 50, skip: int = 0):
         users = []
-        for _user in self.client.users_list(limit=limit, skip=skip):
+        for _user in self.client.users_get(limit=limit, skip=skip):
             users.append([
                 _user.id,
                 _user.name,

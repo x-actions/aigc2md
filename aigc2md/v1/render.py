@@ -75,16 +75,17 @@ class Render:
             'llama3': 'l3',
             'qwen': 'a',
             'SparkDesk': 's',
+            'deepseek': 'd',
         }
         self.rendered_tag = 'posted'
         self.client = openwebui.OpenWebUI(
-            base_url=config.OPENWEBUI_BASE_URL, token=config.OPENWEBUI_JWT)
+            base_url=config.OPENWEBUI_BASE_URL, token=config.PYOPENWEBUI_BEARER_TOKEN)
 
         self.force = force
 
     def _parse_tags(self, chat_id: str, tags: List[dict]) -> List[str]:
         result = []
-        _tags = self.client.chats_tags_list(id=chat_id)
+        _tags = self.client.chats_tags_get_by_id(id=chat_id)
         for _tag in _tags:
             result.append(_tag.name)
 
@@ -151,7 +152,7 @@ class Render:
             sys.exit(1)
 
         # Get Chat By Id
-        chat = self.client.chats_retrieve(id=chat_id)
+        chat = self.client.chats_get_by_id(id=chat_id)
 
         rendered_flag = self.rendered_tag in self._parse_tags(chat_id, chat.chat.get('tags', []))
         if rendered_flag and self.force is False:
@@ -178,14 +179,12 @@ class Render:
 
         # add flag
         if rendered_flag is False:
-            resp = self.client.chats_tags_create(chat_id=chat_id, tag_name=self.rendered_tag)
+            resp = self.client.chats_tags_add(chat_id=chat_id, name=self.rendered_tag)
             utils.pretty_output(
                 field_names=[],
                 rows=[
-                    ['ID', resp.id],
-                    ['chat_id', resp.chat_id],
-                    ['tag_name', resp.tag_name],
-                    ['timestamp', utils.timestamp_to_dateformat(resp.timestamp)],
-                    ['user_id', resp.user_id],
+                    ['chat_id', chat_id],
+                    ['user_id', resp[0].user_id if len(resp) > 0 else "-"],
+                    ['tag_name', ', '.join([tagModel.name for tagModel in resp])],
                 ],
             )

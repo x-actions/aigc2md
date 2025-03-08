@@ -11,7 +11,7 @@ convert AIGC to hugo markdown, current only support OpenWebUI API
     - name: convert AIGC to hugo markdown
       uses: x-actions/aigc2md@v1
       env:
-        OPEN_WEBUI_JWT: "<JWT>"
+        PYOPENWEBUI_BEARER_TOKEN: "<JWT>"
         LOG_LEVEL: "DEBUG"
 ```
 
@@ -72,7 +72,7 @@ source .venv/bin/activate
 pip3 install -r requirements.txt
 
 # set env
-export OPEN_WEBUI_JWT="<JWT>"
+export PYOPENWEBUI_BEARER_TOKEN="<JWT>"
 
 # dev
 export PYTHONPATH=$PYTHONPATH:$(pwd)
